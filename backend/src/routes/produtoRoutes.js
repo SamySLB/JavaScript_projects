@@ -5,16 +5,15 @@ import {
   atualizarProduto,
   deletarProduto
 } from '../controllers/produtoController.js';
+import { autenticar, apenasAdmin } from '../middlewares/authMiddleware.js';
 
 const router = Router();
 
 
 router.get('/', listarProdutos);
 
-router.post('/', criarProduto);
-
-router.put('/:id', atualizarProduto);
-
-router.delete('/:id', deletarProduto);
+router.post('/', autenticar, apenasAdmin, criarProduto);
+router.put('/:id', autenticar, apenasAdmin, atualizarProduto);
+router.delete('/:id', autenticar, apenasAdmin, deletarProduto);
 
 export default router;
