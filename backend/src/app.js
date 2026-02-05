@@ -13,7 +13,7 @@ app.use('/api/produtos', produtoRoutes);
 
 // rota de teste
 app.get('/', (req, res) => {
-  res.send('🚀 API da Loja de Roupas funcionando!');
+  res.send('API da Loja de Roupas funcionando!');
 });
 
 export default app;

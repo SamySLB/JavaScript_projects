@@ -1,28 +1,42 @@
 import mongoose from 'mongoose';
 
-const ProdutoSchema = new mongoose.Schema(
+const produtoSchema = new mongoose.Schema(
   {
-    nome: {
+    codigo: {
       type: String,
-      required: true,
+      required: [true, 'Código do produto é obrigatório'],
+      unique: true,
       trim: true
     },
-    descricao: {
-      type: String
+
+    nome: {
+      type: String,
+      required: [true, 'Nome é obrigatório'],
+      trim: true
     },
+
+    categoria: {
+      type: String,
+      required: [true, 'Categoria é obrigatória'],
+      trim: true
+    },
+
+    dimensao: {
+      type: String,
+      required: [true, 'Dimensão é obrigatória'],
+      trim: true
+    },
+
     preco: {
       type: Number,
-      required: true
+      required: [true, 'Preço é obrigatório'],
+      min: [0.01, 'Preço deve ser maior que zero']
     },
-    categoria: {
-      type: String
-    },
-    imagem: {
-      type: String
-    },
+
     estoque: {
       type: Number,
-      default: 0
+      required: true,
+      min: [0, 'Estoque não pode ser negativo']
     }
   },
   {
@@ -30,4 +44,4 @@ const ProdutoSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model('Produto', ProdutoSchema);
+export default mongoose.model('Produto', produtoSchema);
