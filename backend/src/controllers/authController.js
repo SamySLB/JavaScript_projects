@@ -5,9 +5,9 @@ import jwt from 'jsonwebtoken';
 // REGISTER
 export async function cadastrar(req, res) {
   try {
-    const { email, senha, role } = req.body;
+    const { nome, senha, role } = req.body;
 
-    const existe = await Usuario.findOne({ email });
+    const existe = await Usuario.findOne({ nome });
     if (existe) {
       return res.status(400).json({ erro: 'Usuário já existe' });
     }
@@ -15,7 +15,7 @@ export async function cadastrar(req, res) {
     const hash = await bcrypt.hash(senha, 10);
 
     const usuario = await Usuario.create({
-      email,
+      nome,
       senha: hash,
       role: role || 'user'
     });
@@ -24,12 +24,13 @@ export async function cadastrar(req, res) {
       sucesso: true,
       usuario: {
         id: usuario._id,
-        email: usuario.email,
+        nome: usuario.nome,
         role: usuario.role
       }
     });
 
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ erro: 'Erro ao criar usuário' });
   }
 }
@@ -37,9 +38,9 @@ export async function cadastrar(req, res) {
 // LOGIN
 export async function login(req, res) {
   try {
-    const { email, senha } = req.body;
+    const { nome, senha } = req.body;
 
-    const usuario = await Usuario.findOne({ email });
+    const usuario = await Usuario.findOne({ nome });
     if (!usuario) {
       return res.status(401).json({ erro: 'Credenciais inválidas' });
     }
@@ -61,6 +62,7 @@ export async function login(req, res) {
     return res.json({ token });
 
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ erro: 'Erro ao fazer login' });
   }
 }
