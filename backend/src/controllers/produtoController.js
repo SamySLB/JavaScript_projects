@@ -1,52 +1,24 @@
 import Produto from '../models/Produto.js';
+import { tratarErro } from '../utils/tratarErro.js';
+import { validarProduto } from '../utils/validarProduto.js';
 
 export async function listarProdutos(req, res) {
   try {
     const produtos = await Produto.find();
     return res.json(produtos);
   } catch (error) {
-    return res.status(500).json({
-      erro: 'Erro ao buscar produtos'
-    });
+    return tratarErro(res, error, 'Erro ao buscar produtos');
   }
 }
 
 export async function criarProduto(req, res) {
   try {
-    const { codigo, nome, categoria, dimensao, preco, estoque } = req.body;
-
-    // campos obrigatórios
-    const obrigatorios = { codigo, nome, categoria, dimensao };
-
-    for (const [campo, valor] of Object.entries(obrigatorios)) {
-      if (!valor?.trim()) {
-        return res.status(400).json({
-          erro: `Campo ${campo} é obrigatório`
-        });
-      }
+    const erroValidacao = validarProduto(req.body);
+    if (erroValidacao) {
+      return res.status(400).json({ erro: erroValidacao });
     }
 
-    // validações numéricas
-    if (preco === undefined || preco <= 0) {
-      return res.status(400).json({
-        erro: 'Preço deve ser maior que zero'
-      });
-    }
-
-    if (estoque === undefined || estoque < 0) {
-      return res.status(400).json({
-        erro: 'Estoque não pode ser negativo'
-      });
-    }
-
-    const produto = await Produto.create({
-      codigo,
-      nome,
-      categoria,
-      dimensao,
-      preco,
-      estoque
-    });
+    const produto = await Produto.create(req.body);
 
     return res.status(201).json({
       sucesso: true,
@@ -54,14 +26,51 @@ export async function criarProduto(req, res) {
     });
 
   } catch (error) {
-    if (error.code === 11000) {
-      return res.status(400).json({
-        erro: 'Código do produto já existe'
-      });
+    return tratarErro(res, error, 'Erro ao criar produto');
+  }
+}
+
+export async function atualizarProduto(req, res) {
+  try {
+    const erroValidacao = validarProduto(req.body);
+    if (erroValidacao) {
+      return res.status(400).json({ erro: erroValidacao });
     }
 
-    return res.status(500).json({
-      erro: 'Erro ao criar produto'
+    const produto = await Produto.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+
+    if (!produto) {
+      return res.status(404).json({ erro: 'Produto não encontrado' });
+    }
+
+    return res.json({
+      sucesso: true,
+      dados: produto
     });
+
+  } catch (error) {
+    return tratarErro(res, error, 'Erro ao atualizar produto');
+  }
+}
+
+export async function deletarProduto(req, res) {
+  try {
+    const produto = await Produto.findByIdAndDelete(req.params.id);
+
+    if (!produto) {
+      return res.status(404).json({ erro: 'Produto não encontrado' });
+    }
+
+    return res.json({
+      sucesso: true,
+      mensagem: 'Produto removido com sucesso'
+    });
+
+  } catch (error) {
+    return tratarErro(res, error, 'Erro ao deletar produto');
   }
 }
