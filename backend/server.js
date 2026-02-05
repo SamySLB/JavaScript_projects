@@ -1,13 +1,11 @@
-const express = require('express');
+import 'dotenv/config';
+import app from './src/app.js';
+import { connectDB } from './src/database/db.js';
 
-const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
+connectDB();
 
-app.get('/', (req, res) => {
-  res.send('🚀 API da Loja de Roupas rodando!');
-});
-
-app.listen(3000, () => {
-  console.log('🔥 Servidor rodando em http://localhost:3000');
+app.listen(PORT, () => {
+  console.log(`🔥 Servidor rodando em http://localhost:${PORT}`);
 });
