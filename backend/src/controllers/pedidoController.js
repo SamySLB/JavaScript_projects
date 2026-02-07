@@ -3,23 +3,23 @@ import Pedido from '../models/Pedido.js';
 // CRIAR PEDIDO
 export async function criarPedido(req, res) {
   try {
-    // aceita "itens" ou "produtos"
-    const itens = req.body.itens || req.body.produtos;
-    const { total } = req.body;
-
-    // valida autenticação
     if (!req.usuario || !req.usuario.id) {
       return res.status(401).json({ erro: 'Usuário não autenticado' });
     }
 
-    // valida itens
+    if (!req.body) {
+      return res.status(400).json({ erro: 'Body não enviado' });
+    }
+
+    const itens = req.body.itens || req.body.produtos;
+    const { total } = req.body;
+
     if (!itens || !Array.isArray(itens) || itens.length === 0) {
       return res.status(400).json({ erro: 'Pedido sem itens' });
     }
 
-    // valida total
-    if (total === undefined || total === null) {
-      return res.status(400).json({ erro: 'Total do pedido é obrigatório' });
+    if (total === undefined) {
+      return res.status(400).json({ erro: 'Total obrigatório' });
     }
 
     const pedido = await Pedido.create({
@@ -39,10 +39,6 @@ export async function criarPedido(req, res) {
 // LISTAR PEDIDOS DO USUÁRIO
 export async function meusPedidos(req, res) {
   try {
-    if (!req.usuario || !req.usuario.id) {
-      return res.status(401).json({ erro: 'Usuário não autenticado' });
-    }
-
     const pedidos = await Pedido.find({ usuario: req.usuario.id })
       .populate('itens.produto', 'nome preco');
 
