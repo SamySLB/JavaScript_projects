@@ -4,40 +4,41 @@ import jwt from 'jsonwebtoken';
 
 // REGISTER
 export async function cadastrar(req, res) {
-  try {
-    const { nome, senha, role } = req.body;
 
-    const existe = await Usuario.findOne({ nome });
-    if (existe) {
-      return res.status(400).json({ erro: 'Usuário já existe' });
-    }
 
-    const hash = await bcrypt.hash(senha, 10);
+  const { nome, senha, role } = req.body;
 
-    const usuario = await Usuario.create({
-      nome,
-      senha: hash,
-      role: role || 'user'
-    });
-
-    return res.status(201).json({
-      sucesso: true,
-      usuario: {
-        id: usuario._id,
-        nome: usuario.nome,
-        role: usuario.role
-      }
-    });
-
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ erro: 'Erro ao criar usuário' });
+  if (!nome || !senha) {
+    return res.status(400).json({ erro: 'Nome e senha obrigatórios' });
   }
+
+  const existe = await Usuario.findOne({ nome });
+  if (existe) {
+    return res.status(400).json({ erro: 'Usuário já existe' });
+  }
+
+  const hash = await bcrypt.hash(senha, 10);
+
+  const usuario = await Usuario.create({
+    nome,
+    senha: hash,
+    role: role || 'user'
+  });
+
+  return res.status(201).json({
+    sucesso: true,
+    usuario: {
+      id: usuario._id,
+      nome: usuario.nome,
+      role: usuario.role
+    }
+  });
 }
 
 // LOGIN
 export async function login(req, res) {
   try {
+
     const { nome, senha } = req.body;
 
     const usuario = await Usuario.findOne({ nome });
