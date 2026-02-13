@@ -1,23 +1,7 @@
-import { useEffect } from "react";
-import api from "./api/api";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-
-  useEffect(() => {
-    api.get("/pedidos/meus")
-      .then(res => {
-        console.log("Resposta do backend:", res.data);
-      })
-      .catch(err => {
-        console.error("Erro:", err);
-      });
-  }, []);
-
-  return (
-    <div className="container mt-5">
-      <h1 className="text-primary">Integração Backend OK?</h1>
-    </div>
-  );
+  return <AppRoutes />;
 }
 
 export default App;
