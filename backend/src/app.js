@@ -9,8 +9,9 @@ import pedidoRoutes from './routes/pedidoRoutes.js';
 const app = express();
 
 // middlewares
-app.use(cors());
-app.use(express.json());
+app.use(cors({
+  origin: "http://localhost:5173"
+}));app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/perfil', perfilRoutes);

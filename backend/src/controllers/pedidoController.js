@@ -36,16 +36,43 @@ export async function criarPedido(req, res) {
   }
 }
 
-// LISTAR PEDIDOS DO USUÁRIO
+
 export async function meusPedidos(req, res) {
   try {
     const pedidos = await Pedido.find({ usuario: req.usuario.id })
-      .populate('itens.produto', 'nome preco');
+      .populate('itens.produto', 'nome preco')
+      .sort({ createdAt: -1 });
 
-    return res.json(pedidos);
-
+    res.json(pedidos);
   } catch (error) {
-    console.error('ERRO AO LISTAR PEDIDOS:', error);
-    return res.status(500).json({ erro: 'Erro ao listar pedidos' });
+    res.status(500).json({ erro: 'Erro ao buscar pedidos' });
+  }
+}
+
+export async function pagarPedido(req, res) {
+  try {
+    const { metodo } = req.body;
+    const pedido = await Pedido.findById(req.params.id);
+
+    if (!pedido) {
+      return res.status(404).json({ erro: 'Pedido não encontrado' });
+    }
+
+    if (pedido.status === 'pago') {
+      return res.status(400).json({ erro: 'Pedido já está pago' });
+    }
+
+    pedido.status = 'pago';
+    pedido.pagamento = {
+      metodo,
+      pagoEm: new Date(),
+      transacaoId: `TX-${Date.now()}`
+    };
+
+    await pedido.save();
+
+    res.json({ mensagem: 'Pagamento confirmado', pedido });
+  } catch (error) {
+    res.status(500).json({ erro: 'Erro ao processar pagamento' });
   }
 }

@@ -22,7 +22,19 @@ const pedidoSchema = new mongoose.Schema({
   total: {
     type: Number,
     required: true
+  },
+
+  status: {
+    type: String,
+    enum: ['pendente', 'pago', 'cancelado'],
+    default: 'pendente'
+  },
+  pagamento: {
+    metodo: String, 
+    pagoEm: Date,
+    transacaoId: String
   }
 }, { timestamps: true });
+
 
 export default mongoose.model('Pedido', pedidoSchema);
