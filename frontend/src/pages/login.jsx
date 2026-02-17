@@ -18,7 +18,7 @@ function Login() {
         });
 
       localStorage.setItem("token", response.data.token);
-      navigate("/");
+      navigate("/home");
 
     } catch (error) {
       setErro("Email ou senha inválidos");
