@@ -30,7 +30,7 @@ function Cadastro() {
     setErro("");
 
     try {
-      await api.post("/usuarios/cadastro", formData);
+     await api.post("/auth/register", formData);
 
       navigate("/login");
     } catch (error) {
