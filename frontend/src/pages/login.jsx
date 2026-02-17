@@ -83,16 +83,40 @@ return (
               />
             </div>
 
-            <button
-              className="btn w-100"
-              style={{
-                backgroundColor: "#1c1c1c",
-                color: "white",
-                borderRadius: "10px"
-              }}
-            >
-              Entrar
-            </button>
+                  <button
+          className="btn w-100"
+          style={{
+            backgroundColor: "#1c1c1c",
+            color: "white",
+            borderRadius: "10px"
+          }}
+        >
+          Entrar
+        </button>
+
+        <div className="d-flex justify-content-between mt-3">
+          <a
+            href="#"
+            style={{
+              color: "#ffc0a7",
+              textDecoration: "none",
+              fontSize: "0.9rem"
+            }}
+          >
+            Esqueci senha
+          </a>
+
+          <a
+            href="/cadastro"
+            style={{
+              color: "#f4ecec",
+              textDecoration: "none",
+              fontSize: "0.9rem"
+            }}
+          >
+            Cadastrar
+          </a>
+        </div>
 
           </form>
         </div>
@@ -102,7 +126,7 @@ return (
       <div
         className="col-lg-7 d-none d-lg-block"
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1520975916090-3105956dac38')",
+          backgroundImage: "url('https://png.pngtree.com/background/20240717/original/pngtree-clothes-on-hangers-in-shop-mens-wear-hanger-photo-picture-image_9745339.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center"
         }}
