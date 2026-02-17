@@ -21,6 +21,18 @@ const usuarioSchema = new mongoose.Schema(
       required: true
     },
 
+    telefone: {
+      type: String
+    },
+
+    cep: {
+      type: String
+    },
+
+    endereco: {
+      type: String
+    },
+
     role: {
       type: String,
       enum: ["admin", "user"],
