@@ -7,7 +7,7 @@ const usuarioSchema = new mongoose.Schema(
       required: true,
       trim: true
     },
-
+//login
     email: {
       type: String,
       required: true,
@@ -15,7 +15,7 @@ const usuarioSchema = new mongoose.Schema(
       lowercase: true,
       trim: true
     },
-
+//login
     senha: {
       type: String,
       required: true
