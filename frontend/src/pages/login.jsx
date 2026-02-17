@@ -29,9 +29,9 @@ return (
   <div className="container-fluid vh-100 p-0">
     <div className="row h-100 g-0">
 
-      {/* LOGIN - ESQUERDA */}
+
       <div className="col-lg-5 d-flex justify-content-center align-items-center"
-           style={{ backgroundColor: "#f8f5f2" }}>
+           style={{ backgroundColor: "#bb7753" }}>
 
         <div style={{
           width: "100%",
@@ -39,11 +39,11 @@ return (
           padding: "40px"
         }}>
 
-          <h2 className="fw-bold mb-3" style={{ color: "#1c1c1c" }}>
+          <h2 className="fw-bold mb-3" style={{ color: "#f4ecec" }}>
             Sua visão da Moda!
           </h2>
 
-          <p style={{ color: "#b89b72" }}>
+          <p style={{ color: "#ffc0a7" }}>
             Entre e descubra tendências
           </p>
 
@@ -52,22 +52,32 @@ return (
           <form onSubmit={handleLogin}>
 
             <div className="mb-3">
-              <label>Email</label>
               <input
                 type="email"
-                className="form-control"
+                 className="form-control border-0"
+                  style={{
+                 backgroundColor: "#ffc0a7",
+                 color: "white",
+                  WebkitTextFillColor: "white"
+                  }}
                 value={email}
+                placeholder="Email"
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
 
             <div className="mb-4">
-              <label>Senha</label>
               <input
                 type="password"
-                className="form-control"
+                className="form-control border-0"
+                  style={{
+                 backgroundColor: "#ffc0a7",
+                 color: "white",
+                  WebkitTextFillColor: "white"
+                  }}
                 value={senha}
+                placeholder="Senha"
                 onChange={(e) => setSenha(e.target.value)}
                 required
               />
@@ -88,7 +98,7 @@ return (
         </div>
       </div>
 
-      {/* IMAGEM - DIREITA */}
+      
       <div
         className="col-lg-7 d-none d-lg-block"
         style={{
