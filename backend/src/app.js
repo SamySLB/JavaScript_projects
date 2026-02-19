@@ -6,6 +6,7 @@ import authRoutes from './routes/authRoutes.js';
 import perfilRoutes from './routes/perfilRoutes.js';
 import pedidoRoutes from './routes/pedidoRoutes.js';
 
+
 const app = express();
 
 // middlewares
@@ -15,7 +16,7 @@ app.use(cors({
 
 app.use('/api/auth', authRoutes);
 app.use('/api/perfil', perfilRoutes);
-app.use('/api/produtos', produtoRoutes);
+app.use("/api/produtos", produtoRoutes);
 app.use('/api/pedidos', pedidoRoutes);
 
 
