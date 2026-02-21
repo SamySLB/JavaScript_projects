@@ -9,23 +9,19 @@ function Home() {
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(true);
   const produtosRef = useRef(null);
+  const scrollRef = useRef(null);
 
- useEffect(() => {
-  async function buscarProdutos() {
-    try {
-      const response = await api.get("/produtos");
-
-      console.log("RESPOSTA COMPLETA:", response);
-      console.log("DATA:", response.data);
-
-      setProdutos(response.data);
-
-    } catch (error) {
-      console.error("Erro ao buscar produtos:", error);
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    async function buscarProdutos() {
+      try {
+        const response = await api.get("/produtos");
+        setProdutos(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar produtos:", error);
+      } finally {
+        setLoading(false);
+      }
     }
-  }
 
     buscarProdutos();
   }, []);
@@ -34,6 +30,31 @@ function Home() {
     produtosRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const scroll = (direction) => {
+    const container = scrollRef.current;
+    const scrollAmount = 320;
+
+    container.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
+
+  const arrowStyle = {
+    width: "40px",
+    background: "linear-gradient(to right, rgba(213, 210, 206, 0.6), transparent)",
+    border: "none",
+    zIndex: 2,
+    transition: "all 0.3s ease"
+    
+};
+
+const arrowSet = {
+      fontSize: "2rem",
+      color:" #3a2b21",
+      fontWeight: "bold"
+  
+}
   return (
     <>
       <Navbar />
@@ -42,33 +63,62 @@ function Home() {
 
       <section
         ref={produtosRef}
-        className="container-fluid py-5 bg-light"
+        className="py-5 d-flex align-items-center"
+        style={{
+          backgroundColor: "#bb7753",
+          minHeight: "100vh",
+        }}
       >
-        <div className="container">
-          <h2 className="text-center fw-bold mb-4">
-            Destaques
-          </h2>
+        <div className="container position-relative">
 
           {loading ? (
-            <p className="text-center">Carregando produtos...</p>
+            <p className="text-center text-white">
+              Carregando produtos...
+            </p>
           ) : (
-            <div
-              className="d-flex flex-nowrap overflow-auto gap-4 pb-3"
-              style={{ scrollBehavior: "smooth" }}
-            >
-              {produtos.map((produto) => (
-                <div
-                 key={produto._id}
-                 className="flex-shrink-0"
-                  style={{ width: "280px" }}
-                >
-                <ProductCard
-                  nome={produto.nome}
-                   preco={produto.preco}
-                    imagem={produto.imagem}
-                  />
-                </div>
-              ))}
+            <div className="position-relative">
+
+              {/* left */}
+              <button
+                onClick={() => scroll("left")}
+                className="btn position-absolute top-50 start-0 translate-middle-y"
+                style={arrowStyle}
+              >
+               <span style={arrowSet}>
+              {"<"}
+            </span>
+              </button>
+               {/* right */}
+                      <button
+            onClick={() => scroll("right")}
+            className="btn position-absolute top-50 end-0 translate-middle-y"
+            style={arrowStyle}
+          >
+            <span style={arrowSet}>
+             {">"}
+            </span>
+          </button>
+            
+              <div
+                ref={scrollRef}
+                className="d-flex flex-nowrap gap-4 overflow-hidden px-5"
+              >
+                {produtos.map((produto) => (
+                  <div
+                    key={produto._id}
+                    className="flex-shrink-0"
+                    style={{ width: "280px" }}
+                  >
+                    <ProductCard
+                      nome={produto.nome}
+                      preco={produto.preco}
+                      imagem={produto.imagem}
+                      descricao={produto.descricao}
+                    />
+                  </div>
+                ))}
+              </div>
+
             </div>
           )}
         </div>
