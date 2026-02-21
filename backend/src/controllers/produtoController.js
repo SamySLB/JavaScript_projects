@@ -4,7 +4,10 @@ import { validarProduto } from '../utils/validarProduto.js';
 
 export async function listarProdutos(req, res) {
   try {
-    const produtos = await Produto.find();
+    const produtos = await Produto.find({ categoria:{
+        $in: ["women's clothing", "men's clothing"] 
+    }
+       });
     return res.json(produtos);
   } catch (error) {
     return tratarErro(res, error, 'Erro ao buscar produtos');
