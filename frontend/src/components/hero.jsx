@@ -1,24 +1,28 @@
-function Hero() {
+function Hero({ onConfiraClick }) {
   return (
     <section
-      className="text-center text-white d-flex align-items-center justify-content-center"
+      className="vh-100 d-flex align-items-center justify-content-center text-center text-white"
       style={{
-        height: "60vh",
         backgroundImage:
           "url('https://nox.com.br/wp-content/uploads/2022/11/loja-de-roupas-1-_1_.webp')",
         backgroundSize: "cover",
         backgroundPosition: "center"
       }}
+      role="banner"
     >
       <div
-        style={{
-          backgroundColor: "rgba(0,0,0,0.5)",
-          padding: "40px",
-          borderRadius: "15px"
-        }}
+        className="p-5 rounded"
+        style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
       >
-        <h1 className="fw-bold">Moda que Combina com Você!</h1>
-        <button className="btn btn-light mt-3">
+        <h1 className="fw-bold display-4">
+          Moda que Combina com Você!
+        </h1>
+
+        <button
+          onClick={onConfiraClick}
+          className="btn btn-light btn-lg mt-4"
+          aria-label=" leva para seção de produtos"
+        >
           Confira
         </button>
       </div>
