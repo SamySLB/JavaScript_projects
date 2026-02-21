@@ -5,6 +5,7 @@ import { validarProduto } from '../utils/validarProduto.js';
 export async function listarProdutos(req, res) {
   try {
     const produtos = await Produto.find({ categoria:{
+      //in serve para chamar mais de uma opção de categoria
         $in: ["women's clothing", "men's clothing"] 
     }
        });
