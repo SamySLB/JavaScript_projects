@@ -4,14 +4,25 @@ import { validarProduto } from '../utils/validarProduto.js';
 
 export async function listarProdutos(req, res) {
   try {
-    const produtos = await Produto.find({ categoria:{
-      //in serve para chamar mais de uma opção de categoria
-        $in: ["women's clothing", "men's clothing"] 
+   const { categoria } = req.query;
+
+    // categorias do sistema
+    const categoriasPermitidas = ["women's clothing", "men's clothing"];
+
+    let filtro = {
+      categoria: { $in: categoriasPermitidas }
+    };
+
+    // validação da categoria
+    if (categoria && categoriasPermitidas.includes(categoria)) {
+      filtro = { categoria };
     }
-       });
+
+    const produtos = await Produto.find(filtro);
+
     return res.json(produtos);
   } catch (error) {
-    return tratarErro(res, error, 'Erro ao buscar produtos');
+    return tratarErro(res, error, "Erro ao buscar produtos");
   }
 }
 
