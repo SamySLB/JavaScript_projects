@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import Hero from "../components/hero";
 import ProductCard from "../components/productCard";
 import Footer from "../components/Footer";
-
+import CategorySection from "../components/CategorySection";
 function Home() {
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -123,7 +123,7 @@ const arrowSet = {
           )}
         </div>
       </section>
-
+      <CategorySection />
       <Footer />
     </>
   );

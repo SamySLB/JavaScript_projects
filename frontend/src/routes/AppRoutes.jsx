@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "../pages/login";
 import Cadastro from "../pages/cadastro";
 import Home from "../pages/home";
+import CatalogPage from "../pages/CatalogPage";
 
 function AppRoutes() {
   return (
@@ -10,6 +11,8 @@ function AppRoutes() {
        <Route path="/" element={<Login />} />
       <Route path="/home" element={<Home />} />
         <Route path="/cadastro" element={<Cadastro />} />
+
+         <Route path="/catalogo/:categoria" element={<CatalogPage />} />
       </Routes>
     </BrowserRouter>
   );
