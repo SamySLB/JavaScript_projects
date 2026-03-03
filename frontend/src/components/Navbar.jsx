@@ -1,20 +1,29 @@
 import { Link } from "react-router-dom";
-
+import Logo from "../components/logo";
 function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg bg-light px-4 shadow-sm">
       <div className="container-fluid">
 
-        <Link className="navbar-brand fw-bold" to="/">
-          ModaStore
-        </Link>
+         <Logo />
 
-        <form className="d-flex mx-auto w-50">
+
+        <form className="d-flex mx-auto w-50 p-2 rounded-0 align-items-center" style={{ backgroundColor: '#bb7753' }}>
           <input
-            className="form-control"
+            className="form-control border-0 text-white rounded-0 flex-grow-1"
             type="search"
             placeholder="Buscar produtos..."
-          />
+            style={{
+              color: 'white',
+              backgroundColor: '#bb7753',
+            }}
+          /> 
+          <style>{`
+            .navbar input::placeholder {
+              color: white;
+              opacity: 1;
+            }
+          `}</style>
         </form>
 
         <div className="d-flex gap-3">

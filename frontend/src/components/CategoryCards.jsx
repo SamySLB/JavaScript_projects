@@ -17,16 +17,27 @@ function CategoryCard({ title, image, category }) {
         src={image}
         className="w-100 h-100 object-fit-cover"
       />
-
+ <div
+        className="position-absolute top-0 start-0 w-100 h-100"
+        style={{
+          backgroundColor: "rgba(92, 64, 51, 0.45)", 
+        }}
+           ></div>
       <div
         className="position-absolute top-50 start-50 translate-middle text-white text-center"
         style={{
-          background: "rgba(0,0,0,0.4)",
           padding: "20px 40px",
           borderRadius: "8px",
         }}
       >
-        <h2>{title}</h2>
+            <h2
+        style={{
+          fontSize: "3rem",
+          fontWeight: "bold",
+        }}
+      >
+        {title}
+      </h2>
       </div>
     </div>
   );

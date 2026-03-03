@@ -12,7 +12,7 @@ function Hero({ onConfiraClick }) {
     >
       <div
         className="p-5 rounded"
-        style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
+        style={{ backgroundColor: "rgba(92, 64, 51, 0.45)" }}
       >
         <h1 className="fw-bold display-4">
           Moda que Combina com Você!
