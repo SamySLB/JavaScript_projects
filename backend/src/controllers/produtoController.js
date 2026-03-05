@@ -4,7 +4,7 @@ import { validarProduto } from '../utils/validarProduto.js';
 
 export async function listarProdutos(req, res) {
   try {
-   const { categoria } = req.query;
+   const { categoria, search } = req.query;
 
     // categorias do sistema
     const categoriasPermitidas = ["women's clothing", "men's clothing"];
@@ -16,6 +16,12 @@ export async function listarProdutos(req, res) {
     // validação da categoria
     if (categoria && categoriasPermitidas.includes(categoria)) {
       filtro = { categoria };
+    }
+
+    // termo de busca (case-sensitive conforme pedido)
+    if (search) {
+      // construímos regex simples sem flags para sensibilidade a maiúsculas/minúsculas
+      filtro.nome = { $regex: search };
     }
 
     const produtos = await Produto.find(filtro);

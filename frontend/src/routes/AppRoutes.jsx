@@ -12,7 +12,7 @@ function AppRoutes() {
       <Route path="/home" element={<Home />} />
         <Route path="/cadastro" element={<Cadastro />} />
 
-         <Route path="/catalogo/:categoria" element={<CatalogPage />} />
+         <Route path="/catalogo/:categoria?" element={<CatalogPage />} />
       </Routes>
     </BrowserRouter>
   );

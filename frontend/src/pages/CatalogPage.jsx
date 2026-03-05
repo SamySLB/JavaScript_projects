@@ -5,11 +5,12 @@ import Catalog from "../components/Catalog";
 
 function CatalogPage() {
   const { categoria } = useParams();
+  const cat = categoria || "all";
 
   return (
     <>
       <Navbar />
-      <Catalog category={categoria} />
+      <Catalog category={cat} />
       <Footer />
     </>
   );
