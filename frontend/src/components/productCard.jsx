@@ -1,19 +1,98 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../api/api";
 
-function ProductCard({ nome, preco, imagem, descricao }) {
+function ProductCard({ _id, nome, preco, imagem, descricao }) {
+
   const [showModal, setShowModal] = useState(false);
+  const [message, setMessage] = useState("");
+  const [type, setType] = useState("");
 
+  const navigate = useNavigate();
 
-  function addToCart() {
-    console.log("Produto adicionado ao carrinho:", nome);
+  const produto = {
+    produtoId: _id,
+    nome,
+    preco,
+    imagem,
+    descricao
+  };
+
+  async function addToCart(e) {
+
+    e.stopPropagation();
+
+    try {
+
+      await api.post("/carrinho", produto);
+
+      setType("success");
+      setMessage("Produto adicionado ao carrinho!");
+
+      setTimeout(() => {
+        setMessage("");
+        navigate("/carrinho");
+      }, 1500);
+
+    } catch (error) {
+
+      setType("danger");
+      setMessage("Erro ao adicionar ao carrinho.");
+
+      setTimeout(() => {
+        setMessage("");
+      }, 2000);
+
+      console.error("Erro:", error.response?.data || error);
+    }
   }
 
-  function addToFavorites() {
-    console.log("Produto favoritado:", nome);
+  async function addToFavorites(e) {
+
+    e.stopPropagation();
+
+    try {
+
+      await api.post("/favoritos", produto);
+
+      setType("success");
+      setMessage("Produto adicionado aos favoritos!");
+
+      setTimeout(() => {
+        setMessage("");
+        navigate("/favoritos");
+      }, 1500);
+
+    } catch (error) {
+
+      setType("danger");
+      setMessage("Erro ao favoritar produto.");
+
+      setTimeout(() => {
+        setMessage("");
+      }, 2000);
+
+      console.error("Erro:", error.response?.data || error);
+    }
   }
-  
+
   return (
     <>
+    
+      {/* POPUP DE MENSAGEM */}
+      {message && (
+        <div
+          className={`alert alert-${type} position-fixed top-0 start-50 translate-middle-x mt-3`}
+          style={{
+            zIndex: 9999,
+            minWidth: "300px",
+            textAlign: "center"
+          }}
+        >
+          {message}
+        </div>
+      )}
+
       <div
         className="shadow-sm d-flex flex-column"
         style={{
@@ -25,7 +104,7 @@ function ProductCard({ nome, preco, imagem, descricao }) {
         }}
         onClick={() => setShowModal(true)}
       >
-        {/* img */}
+
         <div
           style={{
             aspectRatio: "1 / 1",
@@ -44,7 +123,6 @@ function ProductCard({ nome, preco, imagem, descricao }) {
           />
         </div>
 
-        {/* CONTEÚDO */}
         <div className="p-3 d-flex flex-column">
 
           <h6
@@ -84,21 +162,22 @@ function ProductCard({ nome, preco, imagem, descricao }) {
         </div>
       </div>
 
-      {/* MODAL */}
       {showModal && (
         <div
           className="modal fade show"
           style={{ display: "block", background: "rgba(0,0,0,0.5)" }}
         >
+
           <div className="modal-dialog modal-lg modal-dialog-centered">
             <div className="modal-content">
 
               <div className="modal-header">
                 <h5 className="modal-title">{nome}</h5>
+
                 <button
                   className="btn-close"
                   onClick={() => setShowModal(false)}
-                ></button>
+                />
               </div>
 
               <div className="modal-body">
@@ -129,25 +208,25 @@ function ProductCard({ nome, preco, imagem, descricao }) {
 
                     <div className="mt-4 d-flex gap-3">
 
-                        <button
-                          className="btn flex-grow-1"
-                          style={{
-                            backgroundColor: "#bb7753",
-                            color: "white"
-                          }}
-                          onClick={() => addToCart()}
-                        >
-                          🛒 Adicionar ao carrinho
-                        </button>
+                      <button
+                        className="btn flex-grow-1"
+                        style={{
+                          backgroundColor: "#bb7753",
+                          color: "white"
+                        }}
+                        onClick={addToCart}
+                      >
+                        🛒 Adicionar ao carrinho
+                      </button>
 
-                        <button
-                          className="btn btn-outline-danger"
-                          onClick={() => addToFavorites()}
-                        >
-                          ❤️ Favoritar
-                        </button>
+                      <button
+                        className="btn btn-outline-danger"
+                        onClick={addToFavorites}
+                      >
+                        ❤️ Favoritar
+                      </button>
 
-                      </div>
+                    </div>
 
                   </div>
 
@@ -157,6 +236,7 @@ function ProductCard({ nome, preco, imagem, descricao }) {
 
             </div>
           </div>
+
         </div>
       )}
     </>
