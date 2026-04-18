@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/api";
 
+
 function ProductCard({ _id, nome, preco, imagem, descricao }) {
 
   const [showModal, setShowModal] = useState(false);
@@ -19,11 +20,9 @@ function ProductCard({ _id, nome, preco, imagem, descricao }) {
   };
 
   async function addToCart(e) {
-
     e.stopPropagation();
 
     try {
-
       await api.post("/carrinho", produto);
 
       setType("success");
@@ -35,24 +34,19 @@ function ProductCard({ _id, nome, preco, imagem, descricao }) {
       }, 1500);
 
     } catch (error) {
+      console.error("Erro:", error.response?.data || error);
 
       setType("danger");
       setMessage("Erro ao adicionar ao carrinho.");
 
-      setTimeout(() => {
-        setMessage("");
-      }, 2000);
-
-      console.error("Erro:", error.response?.data || error);
+      setTimeout(() => setMessage(""), 2000);
     }
   }
 
   async function addToFavorites(e) {
-
     e.stopPropagation();
 
     try {
-
       await api.post("/favoritos", produto);
 
       setType("success");
@@ -64,22 +58,18 @@ function ProductCard({ _id, nome, preco, imagem, descricao }) {
       }, 1500);
 
     } catch (error) {
+      console.error("Erro:", error.response?.data || error);
 
       setType("danger");
       setMessage("Erro ao favoritar produto.");
 
-      setTimeout(() => {
-        setMessage("");
-      }, 2000);
-
-      console.error("Erro:", error.response?.data || error);
+      setTimeout(() => setMessage(""), 2000);
     }
   }
 
   return (
     <>
-    
-      {/* POPUP DE MENSAGEM */}
+      {/* ALERTA */}
       {message && (
         <div
           className={`alert alert-${type} position-fixed top-0 start-50 translate-middle-x mt-3`}
@@ -93,6 +83,7 @@ function ProductCard({ _id, nome, preco, imagem, descricao }) {
         </div>
       )}
 
+      {/* CARD */}
       <div
         className="shadow-sm d-flex flex-column"
         style={{
@@ -113,7 +104,7 @@ function ProductCard({ _id, nome, preco, imagem, descricao }) {
           }}
         >
           <img
-            src={imagem}
+            src={imagem || "https://via.placeholder.com/150"}
             alt={nome}
             style={{
               width: "100%",
@@ -125,10 +116,7 @@ function ProductCard({ _id, nome, preco, imagem, descricao }) {
 
         <div className="p-3 d-flex flex-column">
 
-          <h6
-            className="fw-semibold mb-1"
-            style={{ color: "#9a6949" }}
-          >
+          <h6 className="fw-semibold mb-1" style={{ color: "#9a6949" }}>
             {nome}
           </h6>
 
@@ -150,10 +138,7 @@ function ProductCard({ _id, nome, preco, imagem, descricao }) {
           <div className="mt-auto text-end">
             <span
               className="fw-bold"
-              style={{
-                color: "#bb7753",
-                fontSize: "1rem"
-              }}
+              style={{ color: "#bb7753", fontSize: "1rem" }}
             >
               R$ {Number(preco).toFixed(2)}
             </span>
@@ -162,12 +147,12 @@ function ProductCard({ _id, nome, preco, imagem, descricao }) {
         </div>
       </div>
 
+      {/* MODAL */}
       {showModal && (
         <div
           className="modal fade show"
           style={{ display: "block", background: "rgba(0,0,0,0.5)" }}
         >
-
           <div className="modal-dialog modal-lg modal-dialog-centered">
             <div className="modal-content">
 
@@ -181,7 +166,6 @@ function ProductCard({ _id, nome, preco, imagem, descricao }) {
               </div>
 
               <div className="modal-body">
-
                 <div className="row">
 
                   <div className="col-md-6 text-center">
@@ -198,9 +182,7 @@ function ProductCard({ _id, nome, preco, imagem, descricao }) {
 
                   <div className="col-md-6">
 
-                    <p style={{ color: "#555" }}>
-                      {descricao}
-                    </p>
+                    <p style={{ color: "#555" }}>{descricao}</p>
 
                     <h4 style={{ color: "#bb7753" }}>
                       R$ {Number(preco).toFixed(2)}
@@ -231,12 +213,10 @@ function ProductCard({ _id, nome, preco, imagem, descricao }) {
                   </div>
 
                 </div>
-
               </div>
 
             </div>
           </div>
-
         </div>
       )}
     </>
