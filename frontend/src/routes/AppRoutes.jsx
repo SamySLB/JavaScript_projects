@@ -5,6 +5,7 @@ import Home from "../pages/home";
 import CatalogPage from "../pages/CatalogPage";
 import Carrinho from "../pages/Carrinho";
 import Favoritos from "../pages/Favoritos";
+
 function AppRoutes() {
   return (
     <BrowserRouter>
@@ -16,6 +17,8 @@ function AppRoutes() {
          <Route path="/catalogo/:categoria?" element={<CatalogPage />} />
          <Route path="/carrinho" element={<Carrinho />} />
          <Route path="/favoritos" element={<Favoritos />} />
+         
+         
       </Routes>
     </BrowserRouter>
   );

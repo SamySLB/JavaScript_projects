@@ -35,7 +35,7 @@ function Favoritos() {
 
         {produtos.map((produto) => (
 
-          <div key={produto._id} className="col-md-3">
+          <div key={produto.produtoId || produto._id} className="col-md-3">
 
             <div className="card p-3">
 

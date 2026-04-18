@@ -83,7 +83,7 @@ function ProductCard({ _id, nome, preco, imagem, descricao }) {
         </div>
       )}
 
-      {/* CARD */}
+    
       <div
         className="shadow-sm d-flex flex-column"
         style={{
